@@ -70,6 +70,15 @@ app.post('/api/users/login', (req, res) => {
 });
 
 
+app.get('/api/users/logout', auth, (req, res) => {
+    User.findOneAndUpdate({_id: req.user._id}, {token: ''}, (error, doc) => {
+        if(error) { return res.json({success: false, error}) }
+        return res.status(200).send({
+            success: true
+        });
+    });
+});
+
 const port = process.env.PORT || 3002;
 
 app.listen(port, () => {
