@@ -22,5 +22,6 @@ npm install bcrypt@2.0.1 body-parser@1.18.3 cloudinary@1.11.0 concurrently@3.6.0
 
 ```
 DATABASE=mongodb://localhost:27017/waves
+SECRET=YOUR_PASSWORD_HERE
 
 ```
