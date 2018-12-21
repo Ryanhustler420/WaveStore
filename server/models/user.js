@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
+const SALT_I = 10;
 
 const userSchema = mongoose.Schema({
 
@@ -37,6 +39,24 @@ const userSchema = mongoose.Schema({
     },
     token: {
         type: String
+    }
+});
+
+userSchema.pre('save', function(next){
+    var user = this;
+
+    if(user.isModified('password')){ // if they are not modifing data
+        bcrypt.genSalt(SALT_I, function(error, salt) {
+            if(error) { return next(error) }
+    
+            bcrypt.hash(user.password, salt, function(error, hash) {
+                if(error) { return next(error) }
+                user.password = hash;
+                next();
+            });
+        })
+    } else {
+        next();
     }
 });
 
