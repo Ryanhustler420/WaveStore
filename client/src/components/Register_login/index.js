@@ -10,7 +10,7 @@ const RegisterLogin = () => {
                     <div className="left">
                         <h1>New Customer</h1>
                         <p>
-                            Sunt anim et reprehenderit consectetur exercitation elit culpa exercitation irure pariatur minim. Lorem ad do consectetur excepteur ad Lorem. Esse irure pariatur laborum qui sunt proident labore amet velit.
+                            Sunt anim et reprehenderit consectetur exercitation elit culpa exercitation irure pariatur minim. Lorem ad do consectetur excepteur ad Lorem.
                         </p>
                         <MyButton 
                             type="default"
