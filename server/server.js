@@ -19,11 +19,29 @@ app.use(cookieParser());
 const { User } = require('./models/user');
 const { Brand } = require('./models/brand');
 const { Wood } = require('./models/wood');
+const { Product } = require('./models/product');
 
 // Middlewares
 
 const { auth } = require('./middleware/auth');
 const { admin } = require('./middleware/admin');
+
+// ========================================
+//                  PRODUCTS
+// ========================================
+
+app.post('/api/product/article', auth, admin, (req, res) => {
+    const product = new Product(req.body);
+
+    product.save((error, doc) => {
+        if(error) return res.json({success: false, error});
+
+        res.status(200).json({
+            success: true,
+            article: doc
+        });
+    });
+});
 
 // ========================================
 //                  WOODS
