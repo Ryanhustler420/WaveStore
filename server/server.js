@@ -23,7 +23,11 @@ const { User } = require('./models/user');
 // ========================================
 
 app.post('/api/users/register', (req, res) => {
-        res.status(200);
+        const user = new User(req.body);
+        user.save((error, doc) => {
+            if(error) { return res.json({success: false, error}) }
+            res.status(200).json({success: true, userdata: doc})
+        });
 })
 
 
