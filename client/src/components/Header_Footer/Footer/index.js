@@ -50,7 +50,7 @@ const Footer = () => {
                             </div>
                             <div className="tag">
                                 <FontAwesomeIcon 
-                                    icon={faCompass}
+                                    icon={faEnvelope}
                                     className="icon"
                                 />
                                 <div className="nfo">
