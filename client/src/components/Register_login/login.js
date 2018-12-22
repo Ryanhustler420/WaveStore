@@ -100,7 +100,7 @@ class Login extends Component {
                             </div>
                         :null
                     }
-                    <button onClick={(event) => this.submitForm(event)}>
+                    <button type="submit" tabIndex="-1" onClick={(event) => this.submitForm(event)}>
                         Login
                     </button>
                 </form>
