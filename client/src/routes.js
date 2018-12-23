@@ -6,6 +6,7 @@ import RegisterLogin from './components/Register_login/index';
 import Register from './components/Register_login/register';
 import UserDashboard from './components/user/index';
 import AuthenticationCheck from './HOC/auth';
+import Shop from './components/Shop/index';
 
 const Routes = () => {
   return (
@@ -15,6 +16,7 @@ const Routes = () => {
 
         <Route path="/register" exact component={AuthenticationCheck(Register, false)}/>
         <Route path="/register_login" exact component={AuthenticationCheck(RegisterLogin, false)}/>
+        <Route path="/shop" exact component={AuthenticationCheck(Shop, null)}/>
         <Route path="/" exact component={AuthenticationCheck(Home, null)}/>
       </Switch>
     </Layout>
