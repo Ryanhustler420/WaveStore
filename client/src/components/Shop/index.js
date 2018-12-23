@@ -5,19 +5,39 @@ import PageTop from './page_top';
 import { connect } from 'react-redux';
 import { getBrands, getWoods } from './../../actions/products_actions';
 import CollapseCheckbox from './../utils/collapseCheckbox';
+import { frets } from './../utils/Form/fixed_categories';
 
 class Shop extends Component {
+
+    state = {
+        grid: '',
+        limit: 6,
+        skip: 0,
+        filters: {
+            brand: [],
+            frets: [],
+            wood: [],
+            price: []
+        }
+    }
 
     componentDidMount() {
         this.props.dispatch(getBrands());
         this.props.dispatch(getWoods());
     }
 
-    handleFilters = (filter) => {
+    handleFilters = (filter, category) => {
+        const newFilters = {...this.state.filters}
+        newFilters[category] = filter;
 
+        this.setState({
+            filters: newFilters
+        });
     }
 
     render() {
+
+        console.log(this.state.filters);
         const products = this.props.products;
         return (
             <div>
@@ -32,6 +52,18 @@ class Shop extends Component {
                                 title="Brands"
                                 list={products.brands}
                                 handleFilters={(filter) => this.handleFilters(filter, 'brand')}
+                            />
+                            <CollapseCheckbox 
+                                initState={false}
+                                title="Frets"
+                                list={frets}
+                                handleFilters={(filter) => this.handleFilters(filter, 'frets')}
+                            />
+                            <CollapseCheckbox 
+                                initState={true}
+                                title="Wood"
+                                list={products.woods}
+                                handleFilters={(filter) => this.handleFilters(filter, 'wood')}
                             />
                         </div>
                         <div className="right">
