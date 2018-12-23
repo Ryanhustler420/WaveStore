@@ -34,12 +34,12 @@ app.post('/api/product/shop', (req, res) => {
     
     let order = req.body.order ? req.body.order : 'desc';
     let SortBy = req.body.sortBy ? req.body.sortBy : '_id';
-    let limit = req.body.limit ? +req.body.limit : 100;
-    let skip = +req.body.skip;
+    let limit = req.body.limit ? parseInt(req.body.limit) : 100;
+    let skip = parseInt(req.body.skip);
     let findArgs = {};
 
     for(let key in req.body.filters){
-        if(req.body.filters[key].lenght > 0){
+        if(req.body.filters[key].length > 0){
             if(key === 'price'){
                 findArgs[key] = {
                     $gte: req.body.filters[key][0],
@@ -51,15 +51,21 @@ app.post('/api/product/shop', (req, res) => {
         }
     }
 
+    // console.log(findArgs);
+
     Product.
         find(findArgs).
         populate('brand').
         populate('wood').
-        sort([[sortBy, order]]).
+        sort([[SortBy, order]]).
         skip(skip).
         limit(limit).
-        exec(() => {
-
+        exec((err, articles) => {
+            if(err) return res.status(400).send(err);
+            res.status(200).json({
+                size: articles.length,
+                articles
+            })
         })
 
         // res.status(200);
