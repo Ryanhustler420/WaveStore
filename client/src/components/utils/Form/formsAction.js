@@ -82,3 +82,15 @@ export const clearFormPassword = (formdata, keys) => {
 
     return newFormData;
 }
+
+export const populateOptionsFields = (formdata, arrayData = [], field) => {
+    const newArray = [];
+    const newFormdata = {...formdata};
+
+    arrayData.forEach(item => {
+        newArray.push({key: item._id, value: item.name})
+    });
+
+    newFormdata[field].config.options = newArray;
+    return newFormdata;
+}
