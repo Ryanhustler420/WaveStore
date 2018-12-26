@@ -34,11 +34,12 @@ class Card extends Component {
                             $ {props.price}
                         </div>
                     </div>
-                </div>
                 {
                     props.grid ? 
                         <div className="description">
-                            Officia mollit officia excepteur et adipisicing commodo voluptate culpa cillum. Exercitation aute nostrud adipisicing in consequat magna esse veniam exercitation. Sunt cupidatat aute non minim consectetur reprehenderit voluptate velit minim eiusmod labore ex proident. Ad et deserunt anim enim aliqua incididunt officia. Pariatur laboris commodo excepteur veniam non aute commodo enim. Fugiat ad reprehenderit exercitation elit dolore irure qui.
+                            <p>
+                                {props.description}
+                            </p>
                         </div>
                     : null
                 }
@@ -62,6 +63,7 @@ class Card extends Component {
                     </div>
                 </div>
             </div>
+        </div>
         )
     }
 }
