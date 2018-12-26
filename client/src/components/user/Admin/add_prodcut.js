@@ -2,10 +2,10 @@ import React, { Component } from 'react'
 import SideNav from './../../../HOC/sideNav';
 
 import FormField from './../../utils/Form/FormField';
-import { update, generateData, isFormValid, errorChecker, clearFormPassword, populateOptionsFields } from '../../utils/Form/formsAction';
+import { update, generateData, isFormValid, populateOptionsFields, resetFields } from '../../utils/Form/formsAction';
 
 import { connect } from 'react-redux';
-import { getWoods, getBrands } from './../../../actions/products_actions';
+import { getWoods, getBrands, addProduct, clearProductReduxState } from './../../../actions/products_actions';
 
 class AddProduct extends Component {
 
@@ -20,7 +20,7 @@ class AddProduct extends Component {
                     label: 'Product name',
                     name: 'name_input',
                     type: 'text',
-                    placeholder: 'Enter your name'
+                    placeholder: 'Product name'
                 },
                 validation: {
                     required: true
@@ -178,11 +178,51 @@ class AddProduct extends Component {
     }
 
     submitForm = (event) => {
+        event.preventDefault();
+        let dataToSubmit = generateData(this.state.formdata, 'products');
+        let formIsValid = isFormValid(this.state.formdata, 'products');
+        if(formIsValid){
+            this.props.dispatch(addProduct(dataToSubmit)).then(() => {
+                if (this.props.products.addProduct.success) {
+                    this.resetFieldHandler();
+                }else {
+                    this.setState({formError: true});
+                }
+            })
+        } else {
+            this.setState({
+                formError: true
+            })
+        }
+    }
 
+
+    resetFieldHandler = () => {
+
+        const newFormdata = resetFields(this.state.formdata, 'products');
+
+        this.setState({
+            formData: newFormdata,
+            formSuccess: true
+        })
+
+        setTimeout(() => {
+            this.setState({
+                formSuccess: false
+            },() => {
+                this.props.dispatch(clearProductReduxState())
+            })
+        },3000);
     }
 
     updateForm = (element) => {
-
+        // it send state snapshot to function 'update()' and modify that 
+        // than return backs the copy and here we set the state with that data
+        const newFormdata = update(element, this.state.formdata, 'products');
+        this.setState({
+            formError: false, 
+            formdata: newFormdata
+        });
     }
 
     updateFields = (formData) => {

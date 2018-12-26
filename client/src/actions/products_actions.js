@@ -5,7 +5,9 @@ import {
     GET_PRODUCTS_BY_SELL,
     GET_BRANDS,
     GET_WOODS,
-    GET_PRODUCT_TO_SHOP
+    GET_PRODUCT_TO_SHOP,
+    ADD_PRODUCT,
+    CLEAR_PRODUCT
 } from './types';
 
 export function getProductsBySell() {
@@ -55,6 +57,25 @@ export function getProductToShop(skip, limit, filters = [], previousState = []) 
             type: GET_PRODUCT_TO_SHOP,
             payload: request
         }
+}
+
+export function addProduct(dataToSubmit) {
+    const request = axios.post(`${PRODUCT_SERVER}/article`, dataToSubmit)
+        .then(response => response.data);
+
+
+        return {
+            type: ADD_PRODUCT,
+            payload: request
+        }
+}
+
+
+export function clearProductReduxState() {
+    return {
+        type: CLEAR_PRODUCT,
+        payload: ''
+    }
 }
 
 ///////////////////////////////////
