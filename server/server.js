@@ -52,6 +52,7 @@ app.post('/api/product/shop', (req, res) => {
     }
 
     // console.log(findArgs);
+    findArgs['publish'] = true;
 
     Product.
         find(findArgs).
