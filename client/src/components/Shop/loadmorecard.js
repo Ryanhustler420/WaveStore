@@ -9,7 +9,11 @@ const LoadmoreCards = (props) => {
                     grid={props.grid}
                     list={props.products}
                 />
-                {/* load more button */}
+                <div className="load_more_container">
+                    <span onClick={() => props.loadMore()}>
+                        Load More
+                    </span>
+                </div>
             </div>
         </div>
     )

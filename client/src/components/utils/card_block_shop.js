@@ -3,7 +3,7 @@ import Card from './card';
 
 const CardBlockShop = (props) => {
 
-    const renderCards = (list) => (
+    const renderCards = () => (
         props.list ? 
             props.list.map(card => (
                 <Card 
@@ -24,11 +24,8 @@ const CardBlockShop = (props) => {
                             <div className="no_result">
                                 Sorry, no result
                             </div>
-                        :null
+                        : renderCards()
                     :null}
-                    {
-                        renderCards()
-                    }
                 </div>
             </div>
         </div>
