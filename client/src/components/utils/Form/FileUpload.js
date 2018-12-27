@@ -30,6 +30,9 @@ class FileUpload extends Component {
 
         axios.post('/api/users/uploadimage', formData, config)
             .then((response) => {
+
+                console.log(response.data);
+
                 this.setState({
                     uploading: false,
                     uploadedFiles:[
@@ -71,7 +74,7 @@ class FileUpload extends Component {
                                     paddingTop: '60px'
                                 }}>
                                     <CircularProgress 
-                                        color={{color:`#00bcd4`}}
+                                        style={{color:`#00bcd4`}}
                                         thickness={7}
                                     />
                                 </div>
