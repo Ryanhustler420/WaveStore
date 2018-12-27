@@ -1,5 +1,5 @@
 import { 
-    GET_PRODUCTS_BY_ARRIVAL, GET_PRODUCTS_BY_SELL, ADD_BRAND, CLEAR_PRODUCT, ADD_PRODUCT, GET_BRANDS, GET_WOODS, ADD_WOOD, GET_PRODUCT_TO_SHOP
+    GET_PRODUCTS_BY_ARRIVAL, GET_PRODUCT_DETAIL, CLEAR_PRODUCT_DETAIL, GET_PRODUCTS_BY_SELL, ADD_BRAND, CLEAR_PRODUCT, ADD_PRODUCT, GET_BRANDS, GET_WOODS, ADD_WOOD, GET_PRODUCT_TO_SHOP
 } from './../actions/types';
 
 export default function(state={} , action) {
@@ -34,6 +34,10 @@ export default function(state={} , action) {
             return {...state,addProduct: action.payload }
         case CLEAR_PRODUCT:
             return {...state,addProduct: ''}
+        case GET_PRODUCT_DETAIL:
+            return {...state, prodDetail: action.payload }
+        case CLEAR_PRODUCT_DETAIL:
+            return {...state, prodDetail: action.payload }
         default:
             return state;
     }
