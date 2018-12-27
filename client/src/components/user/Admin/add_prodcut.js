@@ -189,7 +189,6 @@ class AddProduct extends Component {
     }
 
     submitForm = (event) => {
-        debugger;
         event.preventDefault();
         let dataToSubmit = generateData(this.state.formdata, 'products');
         let formIsValid = isFormValid(this.state.formdata, 'products');

@@ -43,6 +43,29 @@ class ManageBrands extends Component {
         :null
     )
 
+    updateForm = (element) => {
+        // it send state snapshot to function 'update()' and modify that 
+        // than return backs the copy and here we set the state with that data
+        const newFormdata = update(element, this.state.formdata, 'brands');
+        this.setState({
+            formError: false, 
+            formdata: newFormdata
+        });
+    }
+
+    submitForm = (event) => {
+        event.preventDefault();
+        let dataToSubmit = generateData(this.state.formdata, 'brands');
+        let formIsValid = isFormValid(this.state.formdata, 'brands');
+        if(formIsValid){
+            console.log(dataToSubmit)
+        } else {
+            this.setState({
+                formError: true
+            })
+        }
+    }
+
     render() {
         return (
             <div className="admin_category_wrapper">
@@ -54,7 +77,23 @@ class ManageBrands extends Component {
                         </div>
                     </div>
                     <div className="right">
-                        form
+                        <form onSubmit={(event) => this.submitForm(event)}>
+                            <FormField 
+                                id={'name'}
+                                formdata={this.state.formdata.name}
+                                change={(element) => this.updateForm(element)}
+                            />
+                            {
+                                this.state.formError ?
+                                    <div className="error_label">
+                                        Please check your data
+                                    </div>
+                                :null
+                            }
+                                <button type="submit" tabIndex="-1" onClick={(event) => this.submitForm(event)}>
+                                    Add brand
+                                </button>
+                        </form>
                     </div>
                 </div>
             </div>
