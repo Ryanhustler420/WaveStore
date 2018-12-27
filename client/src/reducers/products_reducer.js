@@ -1,5 +1,5 @@
 import { 
-    GET_PRODUCTS_BY_ARRIVAL, GET_PRODUCTS_BY_SELL, ADD_BRAND, CLEAR_PRODUCT, ADD_PRODUCT, GET_BRANDS, GET_WOODS, GET_PRODUCT_TO_SHOP
+    GET_PRODUCTS_BY_ARRIVAL, GET_PRODUCTS_BY_SELL, ADD_BRAND, CLEAR_PRODUCT, ADD_PRODUCT, GET_BRANDS, GET_WOODS, ADD_WOOD, GET_PRODUCT_TO_SHOP
 } from './../actions/types';
 
 export default function(state={} , action) {
@@ -15,6 +15,12 @@ export default function(state={} , action) {
                 ...state, 
                 addBrand: action.payload.success, 
                 brands: action.payload.brands
+            }
+        case ADD_WOOD:
+            return {
+                ...state, 
+                addWood: action.payload.success, 
+                woods: action.payload.woods
             }
         case GET_WOODS:
             return {...state, woods: action.payload }
