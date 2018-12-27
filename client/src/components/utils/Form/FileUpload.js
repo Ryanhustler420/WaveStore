@@ -31,8 +31,6 @@ class FileUpload extends Component {
         axios.post('/api/users/uploadimage', formData, config)
             .then((response) => {
 
-                console.log(response.data);
-
                 this.setState({
                     uploading: false,
                     uploadedFiles:[
@@ -73,6 +71,15 @@ class FileUpload extends Component {
             </div>
         ))
     )
+
+    static getDerivedStateFromProps(props, state){
+        if(props.reset){
+            return state = {
+                uploadedFiles: []
+            }
+        }
+        return null;
+    }
 
 
     render() {

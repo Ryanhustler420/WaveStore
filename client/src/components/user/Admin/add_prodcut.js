@@ -189,6 +189,7 @@ class AddProduct extends Component {
     }
 
     submitForm = (event) => {
+        debugger;
         event.preventDefault();
         let dataToSubmit = generateData(this.state.formdata, 'products');
         let formIsValid = isFormValid(this.state.formdata, 'products');
@@ -261,7 +262,7 @@ class AddProduct extends Component {
             ...this.state.formdata
         }
 
-        newFormdata['images'].valid = image;
+        newFormdata['images'].value = image;
         newFormdata['images'].valid = true;
 
         this.setState({
