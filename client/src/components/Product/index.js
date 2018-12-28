@@ -4,6 +4,7 @@ import PageTop from './../Shop/page_top';
 import { connect } from 'react-redux';
 import { getProductDetail, clearProductDetail } from './../../actions/products_actions';
 import ProdNfo from './prodNfo';
+import ProductImg from './prodImg';
 
 class ProductDetail extends Component {
 
@@ -27,7 +28,11 @@ class ProductDetail extends Component {
                         this.props.products.prodDetail ?
                             <div className="product_detail_wrapper">
                                 <div className="left">
-                                    images
+                                    <div style={{width: '500px'}}>
+                                        <ProductImg 
+                                            detail={this.props.products.prodDetail}
+                                        />
+                                    </div>
                                 </div>
                                 <div className="right">
                                     <ProdNfo
