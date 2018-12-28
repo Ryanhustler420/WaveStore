@@ -4,7 +4,7 @@ import MyButton from './button';
 class Card extends Component {
 
     renderCardImage(images) {
-        if(images.length > 0){
+        if(images.length > 0 && images[0]){
             return images[0].url
         }else {
             return '/images/image_not_availble.png'

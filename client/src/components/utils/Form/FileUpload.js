@@ -58,9 +58,9 @@ class FileUpload extends Component {
     }
 
     showUploadedImages = () => (
-        this.state.uploadedFiles.map(item => (
-            <div className="dropzone_box"
-                    key={item.public_id}
+        this.state.uploadedFiles.map((item,i) => (
+            <div key={i}
+                    className="dropzone_box"
                     onClick={() => this.onRemove(item.public_id)}
                 >
                     <div className="wrap"
