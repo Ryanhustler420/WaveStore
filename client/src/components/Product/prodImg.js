@@ -46,7 +46,7 @@ class ProductImg extends Component {
     }
 
     showThumbs = (detail) => (
-        detail.images.map((item,i) => (
+        detail.images[0] && detail.images.map((item,i) => (
             i > 0 ? 
                 <div
                     key={i}
