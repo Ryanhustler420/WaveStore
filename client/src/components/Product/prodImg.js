@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
+import ImageLightBox from './../utils/lightbox';
 
 class ProductImg extends Component {
 
     state = {
         lightbox: false,
         imagePos: 0,
-        lightboxImages: []
+        lightBoxImages: []
     }
 
     componentDidMount() {
@@ -16,9 +17,11 @@ class ProductImg extends Component {
                 lightBoxImages.push(item.url)
             });
 
-            this.setState({
-                lightBoxImages
-            })
+            setTimeout(() => {
+                this.setState({
+                    lightBoxImages
+                })
+            },1000);
         }
     }
 
@@ -31,7 +34,15 @@ class ProductImg extends Component {
     }
 
     handleLightBox = (pos) => {
+        if(this.state.lightBoxImages.length > 0){
+            this.setState({lightbox: true, imagePos: pos})
+        }
+    }
 
+    handleLightBoxClose = () => {
+        this.setState({
+            lightbox: false
+        })
     }
 
     showThumbs = (detail) => (
@@ -65,6 +76,17 @@ class ProductImg extends Component {
                 <div className="main_thumbs">
                         { this.showThumbs(detail) }
                 </div>
+                {
+                    this.state.lightbox ?
+                        <ImageLightBox 
+                            id={detail.id}
+                            images={this.state.lightBoxImages}
+                            open={this.state.lightbox}
+                            pos={this.state.imagePos}
+                            onClose={() => this.handleLightBoxClose()}
+                        />
+                    :null
+                }
             </div>
         )
     }
