@@ -6,8 +6,8 @@ import {
         AUTH_USER,
         LOGOUT_USER,
         ADD_TO_CART_USER,
-        GET_CART_ITEMS_USER
-    
+        GET_CART_ITEMS_USER,
+        REMOVE_CART_ITEM_USER    
     } from './types';
 
 export function RegisterUser(dataToSubmit) {
@@ -76,6 +76,25 @@ export function getCartItems(cartItems, userCart){
 
     return {
         type: GET_CART_ITEMS_USER,
+        payload: request
+    }
+}
+
+export function removeCartItem(id) {
+
+    const request = axios.get(`${USER_SERVER}/removeFormCart?_id=${id}`)
+        .then((response) => {
+            response.data.cart.forEach(item => {
+                response.data.cartDetail.forEach((k,i) => {
+                    if(item.id === k._id){
+                        response.data.cartDetail[i].quantity = item.quantity
+                    }
+                })
+            })
+            return response.data;
+        })
+    return {
+        type: REMOVE_CART_ITEM_USER,
         payload: request
     }
 }

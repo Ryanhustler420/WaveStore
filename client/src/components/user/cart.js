@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import SideNav from './../../HOC/sideNav';
 import { connect } from 'react-redux';
 
-import { getCartItems } from './../../actions/user_actions';
+import { getCartItems, removeCartItem } from './../../actions/user_actions';
 import UserProductBlock from './../utils/User/product_block';
 
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
@@ -53,7 +53,14 @@ class UserCart extends Component {
 
 
     removeFromCart = (id) => {
-
+        this.props.dispatch(removeCartItem(id))
+            .then(() => {
+                if(this.props.user.cartDetail.length <= 0){
+                    this.setState({showTotal: false})
+                } else {
+                    this.calculateTotal(this.props.user.cartDetail)
+                }
+            })
     }
 
     showNoItemMessage = () => (
