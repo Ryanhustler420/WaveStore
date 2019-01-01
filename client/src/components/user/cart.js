@@ -8,9 +8,10 @@ import UserProductBlock from './../utils/User/product_block';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import faFrown from '@fortawesome/fontawesome-free-solid/faFrown';
 import faSmile from '@fortawesome/fontawesome-free-solid/faSmile';
+import Paypal from '../utils/paypal';
 
 class UserCart extends Component {
-
+// AZspzRh63Jdr8glBwlbj-f3pXJ54AVW0diI05z5v7TUV-XSxn_DNLhmoi2-8altwWp_khKjCQkpv7-LD
     state = {
         loading: true,
         total: 0,
@@ -72,6 +73,18 @@ class UserCart extends Component {
         </div>
     )
 
+    transactionError = (dataFromPaypal) => {
+
+    }
+
+    transactionCancled = (dataFromPaypal) => {
+
+    }
+
+    transactionSuccess = (dataFromPaypal) => {
+        
+    }
+
     render() {
         return (
             <SideNav>
@@ -105,7 +118,12 @@ class UserCart extends Component {
                     {
                         this.state.showTotal ? 
                                 <div className="paypal_button_container">
-                                    Pay With Paypal
+                                    <Paypal 
+                                        toPay={this.state.total}
+                                        transactionError={(dataFromPaypal) => this.transactionError(dataFromPaypal)}
+                                        transactionCancled={(dataFromPaypal) => this.transactionCancled(dataFromPaypal)}
+                                        onSuccess={(dataFromPaypal) => this.transactionSuccess(dataFromPaypal)}
+                                    />
                                 </div>
                             : null
                     }
