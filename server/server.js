@@ -7,6 +7,7 @@ const cloudinary = require('cloudinary');
 const app = express();
 const mongoose = require('mongoose');
 // dotenv make .env available in the entire app
+const async = require('async');
 require('dotenv').config();
 
 mongoose.Promise = global.Promise;
@@ -367,6 +368,48 @@ app.post('/api/users/successBuy', auth, (req, res) => {
     transactionData.data = req.body.paymentData;
     transactionData.product = history;
 
+    User.findOneAndUpdate(
+        { _id: req.user._id},
+        { $push: { history: history }, $set: { cart: [] }},
+        { new: true },
+        (err, user) => {
+            if(err) return res.json({success: false, err});
+            
+            const payment = new Payment(transactionData);
+            payment.save((err, doc) => {
+                
+                if(err) return res.json({success: false, err});
+                
+                let product = [];
+                
+                doc.product.forEach(item => {
+                    product.push({id: item.id, quantity: item.quantity})
+                })
+
+
+                // update products sold
+                async.eachOfSeries(product, (item, callback) => {
+                    Product.update(
+                        {_id: item.id},
+                        { $inc: {
+                                "sold": item.quantity
+                            }
+                        },
+                        { new: false },
+                        callback   // this is like permission to to give resole next callbake 
+                    )
+                },(err) => {
+                    if(err) return res.json({success: false, err});
+
+                    res.status(200).json({
+                        success: true,
+                        cart: user.cart,
+                        cartDetail: []
+                    })
+                })               
+            });
+        }
+    )
 });
 
 const port = process.env.PORT || 3002;
