@@ -11,6 +11,7 @@ import AddProduct from './components/user/Admin/add_prodcut';
 import ManageCategories from './components/user/Admin/manage_categories';
 import ProductDetail from './components/Product/index';
 import UserCart from './components/user/cart';
+import UpdateProfile from './components/user/update_profile';
 
 const Routes = () => {
   return (
@@ -18,6 +19,7 @@ const Routes = () => {
       <Switch>
         <Route path="/user/dashboard" exact component={AuthenticationCheck(UserDashboard, true)}/>
         <Route path="/user/cart" exact component={AuthenticationCheck(UserCart, true)}/>
+        <Route path="/user/user_profile" exact component={AuthenticationCheck(UpdateProfile,true)}/>
         <Route path="/admin/add_product" exact component={AuthenticationCheck(AddProduct,true)}/>
         <Route path="/admin/manage_categories" exact component={AuthenticationCheck(ManageCategories,true)}/>
 
