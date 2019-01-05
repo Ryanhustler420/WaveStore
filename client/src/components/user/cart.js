@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 import SideNav from './../../HOC/sideNav';
 import { connect } from 'react-redux';
 
-import { getCartItems, removeCartItem } from './../../actions/user_actions';
+import { getCartItems, removeCartItem, onSuccessBuy } from './../../actions/user_actions';
 import UserProductBlock from './../utils/User/product_block';
 
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import faFrown from '@fortawesome/fontawesome-free-solid/faFrown';
 import faSmile from '@fortawesome/fontawesome-free-solid/faSmile';
-import Paypal from '../utils/paypal';
+import Stripe from './../utils/stripe';
 
 class UserCart extends Component {
 // AZspzRh63Jdr8glBwlbj-f3pXJ54AVW0diI05z5v7TUV-XSxn_DNLhmoi2-8altwWp_khKjCQkpv7-LD
@@ -73,23 +73,41 @@ class UserCart extends Component {
         </div>
     )
 
-    transactionError = (dataFromPaypal) => {
-        console.log('Paypal Error');
+    transactionError = (dataFromStripe) => {
+        console.log(dataFromStripe,'error');
     }
 
-    transactionCancled = (dataFromPaypal) => {
-        // this is just for testing. it will go to transactionSuccess() function
-        console.log('Transaction Cancelled, Function Swap For testing ')
-        this.setState({
-            showTotal: false,
-            showSuccess: true
+    createPaymentObject(payment) {
+        let paymentData = {};
+        ['amount','balance_transaction','created','currency','id','paid','status'].map(key => {
+            let value = payment.data.success[key];
+            if(key === 'amount'){
+                value = value.toString().slice(0, value.toString().length - 2)
+            }
+            paymentData = {
+                ...paymentData,
+                [key]: value
+            }
+            return paymentData;
         })
+        return paymentData;
     }
 
-    transactionSuccess = (dataFromPaypal) => {
-        this.setState({
-            showTotal: false,
-            showSuccess: true
+    transactionSuccess = (dataFromStripe) => {
+        const paymentInformation = this.createPaymentObject(dataFromStripe);
+        console.log(paymentInformation);
+        this.props.dispatch(onSuccessBuy({
+            cartDetail: this.props.user.cartDetail,
+            paymentData: {
+                paymentData: paymentInformation                
+             }
+        })).then(() => {
+            if(this.props.user.successBuy){
+                this.setState({
+                    showTotal: false,
+                    showSuccess: true
+                })
+            }
         })
     }
 
@@ -124,16 +142,17 @@ class UserCart extends Component {
                         }
                     </div>
                     {
-                        this.state.showTotal ? 
-                                <div className="paypal_button_container">
-                                    <Paypal 
-                                        toPay={this.state.total}
-                                        transactionError={(dataFromPaypal) => this.transactionError(dataFromPaypal)}
-                                        transactionCancled={(dataFromPaypal) => this.transactionCancled(dataFromPaypal)}
-                                        onSuccess={(dataFromPaypal) => this.transactionSuccess(dataFromPaypal)}
-                                    />
-                                </div>
-                            : null
+                    this.state.showTotal ? 
+                            <div className="paypal_button_container">
+                                <Stripe
+                                    name={'One more step to go'}
+                                    description={'Only The Guitars'} 
+                                    toPay={this.state.total}
+                                    transactionError={(dataFromStripe) => this.transactionError(dataFromStripe)}
+                                    onSuccess={(dataFromStripe) => this.transactionSuccess(dataFromStripe)}
+                                />
+                            </div>
+                        : null
                     }
                 </div>
             </SideNav>

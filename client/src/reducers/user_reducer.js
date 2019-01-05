@@ -1,5 +1,5 @@
 import { 
-        LOGIN_USER, REGISTER_USER, AUTH_USER, REMOVE_CART_ITEM_USER, GET_CART_ITEMS_USER, LOGOUT_USER, ADD_TO_CART_USER
+        LOGIN_USER, REGISTER_USER, ON_SUCCESS_BUY_USER, AUTH_USER, REMOVE_CART_ITEM_USER, GET_CART_ITEMS_USER, LOGOUT_USER, ADD_TO_CART_USER
     } from './../actions/types';
 
     export default function(state={} , action) {
@@ -27,6 +27,16 @@ import {
                     ...state.userData,
                     cart: action.payload.cart
                 }
+            }
+        case ON_SUCCESS_BUY_USER:
+            return {
+                ...state,
+                successBuy: action.payload.success,
+                userData: {
+                    ...state.userData,
+                    cart: action.payload.cart
+                },
+                cartDetail: action.payload.cartDetail
             }
         default:
             return state;

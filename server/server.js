@@ -3,6 +3,8 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const formidable = require('express-formidable');
 const cloudinary = require('cloudinary');
+const configureStripe = require('stripe');
+
 
 const app = express();
 const mongoose = require('mongoose');
@@ -10,6 +12,7 @@ const mongoose = require('mongoose');
 const async = require('async');
 require('dotenv').config();
 
+const stripe = configureStripe(process.env.STRIPE_SECRET_KEY)
 mongoose.Promise = global.Promise;
 mongoose.connect(process.env.DATABASE);
 
@@ -340,6 +343,18 @@ app.get('/api/users/removeFormCart', auth, (req, res) => {
     )
 });
 
+const postStripeCharge = res => (stripeErr, stripeRes) => {
+    if(stripeErr) {
+        res.status(500).send({ error: stripeErr })
+    } else {
+        res.status(200).send({ success: stripeRes })
+    }
+}
+
+app.post('/api/users/fetchToken', auth, (req, res) => {
+    stripe.charges.create(req.body, postStripeCharge(res));
+});
+
 app.post('/api/users/successBuy', auth, (req, res) => {
     let history = [];
     let transactionData = {}
@@ -353,9 +368,9 @@ app.post('/api/users/successBuy', auth, (req, res) => {
             id: item._id,
             price: item.price,
             quantity: item.quantity,
-            paymentId: req.body.paymentData.paymentID
+            paymentId: req.body.paymentData.id
         })
-    })
+    })    
 
     // PAYMENT DASH
     transactionData.user = {
