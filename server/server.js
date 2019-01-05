@@ -255,7 +255,6 @@ app.get('/api/users/logout', auth, (req, res) => {
 
 app.post('/api/users/uploadimage',auth, admin, formidable(), (req, res) => {
     cloudinary.uploader.upload(req.files.file.path, (result) => {
-        console.log(result);
         res.status(200).send({
             public_id: result.public_id,
             url: result.url
@@ -368,7 +367,7 @@ app.post('/api/users/successBuy', auth, (req, res) => {
             id: item._id,
             price: item.price,
             quantity: item.quantity,
-            paymentId: req.body.paymentData.id
+            paymentId: req.body.paymentData.paymentData.paymentId
         })
     })    
 

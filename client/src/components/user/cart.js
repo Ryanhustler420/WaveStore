@@ -80,13 +80,17 @@ class UserCart extends Component {
     createPaymentObject(payment) {
         let paymentData = {};
         ['amount','balance_transaction','created','currency','id','paid','status'].map(key => {
+            let Key = key;
             let value = payment.data.success[key];
             if(key === 'amount'){
                 value = value.toString().slice(0, value.toString().length - 2)
             }
+            if(Key === 'id'){
+                Key = 'paymentId'
+            }
             paymentData = {
                 ...paymentData,
-                [key]: value
+                [Key]: value
             }
             return paymentData;
         })
@@ -95,7 +99,7 @@ class UserCart extends Component {
 
     transactionSuccess = (dataFromStripe) => {
         const paymentInformation = this.createPaymentObject(dataFromStripe);
-        console.log(paymentInformation);
+        // console.log(paymentInformation);
         this.props.dispatch(onSuccessBuy({
             cartDetail: this.props.user.cartDetail,
             paymentData: {
