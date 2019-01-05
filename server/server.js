@@ -402,7 +402,7 @@ app.post('/api/users/successBuy', auth, (req, res) => {
 
 
                 // update products sold
-                async.eachOfSeries(product, (item, callback) => {
+                async.eachSeries(product, (item, callback) => {
                     Product.update(
                         {_id: item.id},
                         { $inc: {
