@@ -1,6 +1,7 @@
 import React from 'react';
 import SideNav from './../../HOC/sideNav';
 import MyButton from './../utils/button';
+import UserHistoryBlock from '../utils/history_block';
 
 const UserDashboard = ({user}) => {
     return (
@@ -19,12 +20,18 @@ const UserDashboard = ({user}) => {
                         linkTo="/user/user_profile"
                     />
                 </div>
-                <div className="user_nfo_panel">
-                    <h1>History purchases</h1>
-                    <div className="user_product_block_wrapper">
-                        history
-                    </div>
-                </div>
+                {
+                    user.userData.history ? 
+                        <div className="user_nfo_panel">
+                            <h1>History purchases</h1>
+                            <div className="user_product_block_wrapper">
+                                <UserHistoryBlock 
+                                    products={user.userData.history}
+                                />
+                            </div>
+                        </div>
+                    :null
+                }
             </div>
         </SideNav>
     )
