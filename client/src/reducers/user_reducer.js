@@ -1,5 +1,16 @@
 import { 
-        LOGIN_USER, REGISTER_USER, ON_SUCCESS_BUY_USER, AUTH_USER, REMOVE_CART_ITEM_USER, GET_CART_ITEMS_USER, LOGOUT_USER, ADD_TO_CART_USER
+        
+        LOGIN_USER, 
+        REGISTER_USER,
+        UPDATE_DATA_USER,
+        CLEAR_UPDATE_USER, 
+        ON_SUCCESS_BUY_USER, 
+        AUTH_USER, 
+        REMOVE_CART_ITEM_USER, 
+        GET_CART_ITEMS_USER, 
+        LOGOUT_USER, 
+        ADD_TO_CART_USER
+
     } from './../actions/types';
 
     export default function(state={} , action) {
@@ -37,6 +48,16 @@ import {
                     cart: action.payload.cart
                 },
                 cartDetail: action.payload.cartDetail
+            }
+        case UPDATE_DATA_USER:
+            return {
+                ...state,
+                updateUser: action.payload
+            }
+        case CLEAR_UPDATE_USER:
+            return {
+                ...state,
+                updateUser: action.payload
             }
         default:
             return state;
