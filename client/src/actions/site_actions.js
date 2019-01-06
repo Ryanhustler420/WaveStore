@@ -1,15 +1,15 @@
 import axios from 'axios';
 import { SITE_SERVER } from './../components/utils/misc';
-// import { 
+import { 
+    GET_SITE_DATA
+    } from './types';
 
-//     } from './types';
+export function getSiteData() {
+    const request = axios.get(`${SITE_SERVER}/site_data`)
+        .then(response => response.data);
 
-// export function RegisterUser(dataToSubmit) {
-//     const request = axios.post(`${USER_SERVER}/register`, dataToSubmit)
-//         .then(response => response.data);
-
-//         return {
-//             type: REGISTER_USER,
-//             payload: request
-//         }
-// }
+        return {
+            type: GET_SITE_DATA,
+            payload: request
+        }
+}

@@ -8,6 +8,8 @@ import {
 } from './../../utils/Form/formsAction';
 import {connect} from 'react-redux';
 
+import { getSiteData } from './../../../actions/site_actions';
+
 class UpdateSiteInfo extends Component {
   state = {
     formError: false,
@@ -109,6 +111,14 @@ class UpdateSiteInfo extends Component {
     });
   };
 
+  componentDidMount() {
+    this.props.dispatch(getSiteData())
+      .then(() => {
+        const newFormData = populateFields(this.state.formdata, this.props.site.siteData[0]);
+        this.setState({formdata: newFormData})
+      })
+  }
+
   render () {
     return (
       <div>
@@ -165,4 +175,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect () (UpdateSiteInfo);
+export default connect (mapStateToProps) (UpdateSiteInfo);
