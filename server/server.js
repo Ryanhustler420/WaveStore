@@ -19,7 +19,7 @@ mongoose.connect(process.env.MONGODB_URI);
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(cookieParser());
-app.use(path.join(__dirname, './../client/build'))
+app.use(express.static('client/build'))
 cloudinary.config({
     cloud_name: process.env.CLOUD_NAME,
     api_key: process.env.CLOUD_API_KEY,
