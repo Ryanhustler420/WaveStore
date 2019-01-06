@@ -14,7 +14,7 @@ require('dotenv').config();
 
 const stripe = configureStripe(process.env.STRIPE_SECRET_KEY)
 mongoose.Promise = global.Promise;
-mongoose.connect(process.env.DATABASE);
+mongoose.connect(process.env.MONGODB_URI);
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
