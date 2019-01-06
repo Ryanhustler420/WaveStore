@@ -4,6 +4,7 @@ const cookieParser = require('cookie-parser');
 const formidable = require('express-formidable');
 const cloudinary = require('cloudinary');
 const configureStripe = require('stripe');
+const path = require('path');
 
 
 const app = express();
@@ -472,7 +473,7 @@ app.post('/api/site/site_data', auth, admin, (req,res) => {
 });
 
 if(process.env.NODE_ENV === 'production'){
-    const path = require('path');
+    
     app.get('/*', (req, res) => {
         res.sendFile(path.resolve(__dirname, '../client', 'build', 'index.html'))
     })
