@@ -12,6 +12,7 @@ import ManageCategories from './components/user/Admin/manage_categories';
 import ProductDetail from './components/Product/index';
 import UserCart from './components/user/cart';
 import UpdateProfile from './components/user/update_profile';
+import ManageSite from './components/user/Admin/manage_site';
 
 const Routes = () => {
   return (
@@ -22,6 +23,7 @@ const Routes = () => {
         <Route path="/user/user_profile" exact component={AuthenticationCheck(UpdateProfile,true)}/>
         <Route path="/admin/add_product" exact component={AuthenticationCheck(AddProduct,true)}/>
         <Route path="/admin/manage_categories" exact component={AuthenticationCheck(ManageCategories,true)}/>
+        <Route path="/admin/site_info" exact component={AuthenticationCheck(ManageSite,true)}/>
 
         <Route path="/product_detail/:id" exact component={AuthenticationCheck(ProductDetail, null)}/>
         <Route path="/register" exact component={AuthenticationCheck(Register, false)}/>
