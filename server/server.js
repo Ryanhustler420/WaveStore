@@ -20,7 +20,7 @@ mongoose.connect(process.env.MONGODB_URI);
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(cookieParser());
-app.use(express.static('client/build'))
+app.use(express.static(path.join(__dirname, '/../client/build')))
 cloudinary.config({
     cloud_name: process.env.CLOUD_NAME,
     api_key: process.env.CLOUD_API_KEY,
@@ -475,7 +475,8 @@ app.post('/api/site/site_data', auth, admin, (req,res) => {
 if(process.env.NODE_ENV === 'production'){
     
     app.get('/*', (req, res) => {
-        res.sendfile(path.resolve(__dirname, '../client', 'build', 'index.html'))
+        // res.sendFile(path.resolve(__dirname, '../client', 'build', 'index.html'))
+        res.sendFile(path.join(__dirname + '/../client/build/index.html'));
     })
 }
 
