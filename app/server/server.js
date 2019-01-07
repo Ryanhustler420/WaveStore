@@ -5,7 +5,6 @@ const formidable = require('express-formidable');
 const cloudinary = require('cloudinary');
 const configureStripe = require('stripe');
 const path = require('path');
-const mailer = require('nodemailer');
 
 
 const app = express();
@@ -42,30 +41,8 @@ const { Site } = require('./models/site');
 const { auth } = require('./middleware/auth');
 const { admin } = require('./middleware/admin');
 
-const smtpTransport = mailer.createTransport({
-    service: 'Gmail',
-    auth: {
-        user: "sender@gmail.com",
-        pass: ""
-    }
-});
-
-var mail = {
-    from : "Waves <sender@gmail.com>",
-    to: "reciever@gmail.com",
-    subject: "Send just testing",
-    text: "Testing nodemailer npm",
-    html: "<b>Hello Gaurav, welcome to goonsroom</b>"
-}
-
-smtpTransport.sendMail(mail, function(err, response) {
-    if( err ) {
-        console.log(err)
-    } else {
-        console.log('Email sent');
-    }
-    smtpTransport.close();
-})
+// UTILS MAIL
+const { sendEmail } = require('./utils/mail/index');
 
 
 // ========================================
@@ -246,7 +223,8 @@ app.post('/api/users/register', (req, res) => {
         const user = new User(req.body);
         user.save((error, doc) => {
             if(error) { return res.json({success: false, error}) }
-            res.status(200).json({success: true})
+            sendEmail(doc.email,doc.name,null,"welcome");
+            return res.status(200).json({success: true})
         });
 })
 
