@@ -23,8 +23,18 @@ express-formidable@1.0.0 jsonwebtoken@8.3.0 moment@2.22.2 mongoose@5.1.6 multer@
 > .env
 
 ```
-DATABASE=mongodb://localhost:27017/waves
+MONGODB_URI=mongodb://localhost:27017/waves || mongodb://<username>:<dbpassword>@ds1490024.mlab.com:49914/waveshoper
 SECRET=YOUR_PASSWORD_HERE
+
+CLOUD_NAME=cloudinaryName
+CLOUD_API_KEY=cloudinaryApiKey
+CLOUD_API_SECRET=cloudinaryPrivateKey
+
+STRIPE_PUBLISHABLE_KEY=pk_test_AQxZm271h68Cq62jeHF5InEV
+STRIPE_SECRET_KEY=sk_test_QremTc0bVYJ15G3X9UsMQUQe
+
+EMAIL_PASS=XXXXXXXX99
+EMAIL_USER=ownerGmailIdd@gmail.com
 
 ```
 
