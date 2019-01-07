@@ -7,7 +7,7 @@ const UserHistoryBlock = (props) => {
         props.products ? 
             props.products.map((product, i) => (
                 <tr key={i}>
-                    <td>{moment(product.dateOfPurchase).format("MM-DD-YYYY")}</td>
+                    <td>{moment(product.dateOfPurchse).format("MM-DD-YYYY")}</td>
                     <td>{product.brand.name} {product.name}</td>
                     <td>Rs.{product.price}</td>
                     <td>{product.quantity}</td>
