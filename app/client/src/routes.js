@@ -13,6 +13,7 @@ import ProductDetail from './components/Product/index';
 import UserCart from './components/user/cart';
 import UpdateProfile from './components/user/update_profile';
 import ManageSite from './components/user/Admin/manage_site';
+import PageNotFound from './components/utils/page_not_found';
 
 const Routes = () => {
   return (
@@ -30,6 +31,7 @@ const Routes = () => {
         <Route path="/register_login" exact component={AuthenticationCheck(RegisterLogin, false)}/>
         <Route path="/shop" exact component={AuthenticationCheck(Shop, null)}/>
         <Route path="/" exact component={AuthenticationCheck(Home, null)}/>
+        <Route component={AuthenticationCheck(PageNotFound)}/>
       </Switch>
     </Layout>
   )

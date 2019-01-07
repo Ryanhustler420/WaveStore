@@ -66,9 +66,11 @@ class UserCart extends Component {
 
     showNoItemMessage = () => (
         <div className="cart_no_items">
-            <FontAwesomeIcon 
-                icon={faFrown}
-            />
+            <div>
+                <FontAwesomeIcon 
+                    icon={faFrown}
+                />
+            </div>
             You have no items
         </div>
     )
