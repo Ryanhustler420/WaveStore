@@ -1,5 +1,5 @@
 import React from 'react';
-import moment from 'moment';
+// import moment from 'moment';
 
 const UserHistoryBlock = (props) => {
 
@@ -7,7 +7,8 @@ const UserHistoryBlock = (props) => {
         props.products ? 
             props.products.map((product, i) => (
                 <tr key={i}>
-                    <td>{moment(product.dateOfPurchse).format("MM-DD-YYYY")}</td>
+                    {/* <td>{moment(product.dateOfPurchse).format("MM-DD-YYYY")}</td> */}
+                    <td>{product.porder}</td>
                     <td>{product.brand.name} {product.name}</td>
                     <td>Rs.{product.price}</td>
                     <td>{product.quantity}</td>
@@ -21,7 +22,8 @@ const UserHistoryBlock = (props) => {
         <table>
             <thead>
                 <tr>
-                    <th>Date of purchase</th>
+                    {/* <th>Date of purchase</th> */}
+                    <th>Purchase order</th>
                     <th>Product</th>
                     <th>Price paid</th>
                     <th>Quantity</th>

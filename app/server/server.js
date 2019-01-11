@@ -5,6 +5,7 @@ const formidable = require('express-formidable');
 const cloudinary = require('cloudinary');
 const configureStripe = require('stripe');
 const path = require('path');
+const SHA1 = require("crypto-js/sha1");
 
 
 const app = express();
@@ -365,9 +366,14 @@ app.post('/api/users/successBuy', auth, (req, res) => {
     let history = [];
     let transactionData = {}
 
+    const date = new Date();
+    const purchaseOrder = `PO-${date.getSeconds()}${date.getMilliseconds()}-${SHA1(req.user._id)
+                            .toString().substring(0,8)}`;
+
     // user history
     req.body.cartDetail.forEach(item => {
         history.push({
+            porder: purchaseOrder,
             dateOfPurchse: Date.now(),
             name: item.name,
             brand: item.brand,
@@ -386,7 +392,11 @@ app.post('/api/users/successBuy', auth, (req, res) => {
         email: req.user.email
     }
 
-    transactionData.data = req.body.paymentData;
+    transactionData.data = {
+        ...req.body.paymentData,
+        porder: purchaseOrder
+    };
+
     transactionData.product = history;
 
     User.findOneAndUpdate(
