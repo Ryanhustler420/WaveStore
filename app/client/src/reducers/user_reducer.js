@@ -22,7 +22,19 @@ import {
         case AUTH_USER: 
             return { ...state, userData: action.payload } 
         case LOGOUT_USER:
-            return {...state }
+            return {...state ,  userData: {
+                    isAuth : false,
+                    error : false,
+                    isAdmin : false,
+                    email : '',
+                    name: '',
+                    lastname: '',
+                    role: 0,
+                    cart: [],
+                    history: []
+                },
+                loginSuccess:  false
+            }
         case ADD_TO_CART_USER:
             return {...state, userData: {
                 ...state.userData,
