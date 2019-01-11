@@ -57,17 +57,16 @@ class AddFileLocalComponent extends Component {
     });
   }
 
-  showFileList = () => (
-      this.state.files ? 
-        this.state.files.map((item, i) => (
-            <li key={i}>
-                <Link to={`/api/users/download/${item}`} target="_blank">
-                    {item}
-                </Link>
-            </li>
+  showFileList = () =>
+    this.state.files
+      ? this.state.files.map ((item, i) => (
+          <li key={i}>
+            <Link to={`/api/users/download/${item}`} target="_blank">
+              {item}
+            </Link>
+          </li>
         ))
-      :null
-  )
+      : null;
 
   render () {
     return (
@@ -105,6 +104,7 @@ class AddFileLocalComponent extends Component {
           <hr />
           <div>
             <ul>
+              <span>Click To Download</span>
               {this.showFileList ()}
             </ul>
           </div>
