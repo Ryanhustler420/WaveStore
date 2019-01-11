@@ -30,6 +30,21 @@ class AddFileLocalComponent extends Component {
     };
 
     formData.append ('file', files[0]);
+
+    axios.post('/api/users/uploadfile_local', formData, config)
+        .then(response => {
+            if(response.data.success){
+                this.setState({
+                    formSuccess: true, 
+                    uploading: false, 
+                    formError: false
+                },() => {
+                    setTimeout(() => {
+                        this.setState({formSuccess: false});
+                    },2000);
+                })
+            }
+        })
   }
 
   render () {
