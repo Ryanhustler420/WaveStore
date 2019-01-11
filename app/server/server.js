@@ -65,6 +65,15 @@ app.post('/api/users/uploadfile_local', auth, admin, (req, res) => {
     })
 })
 
+const fs = require('fs');
+
+app.get('/api/users/admin_files', auth, admin, (req, res) => {
+    const dir = path.resolve(".") + '/uploads/';
+    fs.readdir(dir, (err, items) => {
+        return res.status(200).send(items);
+    })
+});
+
 
 // ========================================
 //                  PRODUCTS

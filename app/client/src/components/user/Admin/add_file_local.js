@@ -31,21 +31,43 @@ class AddFileLocalComponent extends Component {
 
     formData.append ('file', files[0]);
 
-    axios.post('/api/users/uploadfile_local', formData, config)
-        .then(response => {
-            if(response.data.success){
-                this.setState({
-                    formSuccess: true, 
-                    uploading: false, 
-                    formError: false
-                },() => {
-                    setTimeout(() => {
-                        this.setState({formSuccess: false});
-                    },2000);
-                })
+    axios
+      .post ('/api/users/uploadfile_local', formData, config)
+      .then (response => {
+        if (response.data.success) {
+          this.setState (
+            {
+              formSuccess: true,
+              uploading: false,
+              formError: false,
+            },
+            () => {
+              setTimeout (() => {
+                this.setState ({formSuccess: false});
+              }, 2000);
             }
-        })
+          );
+        }
+      });
   }
+
+  componentDidMount () {
+    axios.get ('/api/users/admin_files').then (response => {
+      this.setState ({files: response.data});
+    });
+  }
+
+  showFileList = () => (
+      this.state.files ? 
+        this.state.files.map((item, i) => (
+            <li key={i}>
+                <Link to={`/api/users/download/${item}`} target="_blank">
+                    {item}
+                </Link>
+            </li>
+        ))
+      :null
+  )
 
   render () {
     return (
@@ -82,7 +104,9 @@ class AddFileLocalComponent extends Component {
           </div>
           <hr />
           <div>
-            Uploads List Goes Here
+            <ul>
+              {this.showFileList ()}
+            </ul>
           </div>
         </div>
       </SideNav>
