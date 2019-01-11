@@ -14,6 +14,7 @@ import UserCart from './components/user/cart';
 import UpdateProfile from './components/user/update_profile';
 import ManageSite from './components/user/Admin/manage_site';
 import PageNotFound from './components/utils/page_not_found';
+import AddFileLocalComponent from './components/user/Admin/add_file_local';
 
 const Routes = () => {
   return (
@@ -25,6 +26,7 @@ const Routes = () => {
         <Route path="/admin/add_product" exact component={AuthenticationCheck(AddProduct,true)}/>
         <Route path="/admin/manage_categories" exact component={AuthenticationCheck(ManageCategories,true)}/>
         <Route path="/admin/site_info" exact component={AuthenticationCheck(ManageSite,true)}/>
+        <Route path="/admin/add_file_local" exact component={AuthenticationCheck(AddFileLocalComponent,true)}/>
 
         <Route path="/product_detail/:id" exact component={AuthenticationCheck(ProductDetail, null)}/>
         <Route path="/register" exact component={AuthenticationCheck(Register, false)}/>

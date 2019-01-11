@@ -46,6 +46,26 @@ const { admin } = require('./middleware/admin');
 const { sendEmail } = require('./utils/mail/index');
 
 
+const multer = require('multer');
+let storage = multer.diskStorage({
+    destination:(req, file, cb) => {
+        cb(null, 'uploads/')
+    },
+    filename:(req, file, cb) => {
+        cb(null, `${Date.now()}_${file.originalname}`)
+    }
+});
+
+const upload = multer({ storage: storage }).single('file')
+
+app.post('/api/users/uploadfile_local', auth, admin, (req, res) => {
+    upload(req, res, (err) => {
+        if(err) return res.json({success: false, err})
+        return res.json({success: true})
+    })
+})
+
+
 // ========================================
 //                  PRODUCTS
 // ========================================
