@@ -1,11 +1,12 @@
 
 const mailer = require('nodemailer');
 const { welcome } = require('./welcome_template');
+const { purchase } = require('./purchase_template');
 require('dotenv').config();
 
 // Mail related functions 
 
-const getEmailTemplate = (to, name, token, type) => {
+const getEmailTemplate = (to, name, token, type, actionData) => {
     let template = null;
 
     switch (type) {
@@ -18,6 +19,15 @@ const getEmailTemplate = (to, name, token, type) => {
                 html: welcome()
             }        
             break;
+        case "purchase":
+        template = {
+            from : `Waves ${process.env.EMAIL_USER}`,
+            to,
+            subject: `Thanks for shopping with us, ${name} !`,
+            // text: "Testing nodemailer npm",
+            html: purchase(actionData)
+        }        
+           break;
 
         default:
             break;
@@ -26,7 +36,7 @@ const getEmailTemplate = (to, name, token, type) => {
     return template;
 }
 
-const sendEmail = (to, name, token, type) => {
+const sendEmail = (to, name, token, type, actionData = null) => {
     const smtpTransport = mailer.createTransport({
         service: 'Gmail',
         auth: {
@@ -35,7 +45,7 @@ const sendEmail = (to, name, token, type) => {
         }
     });
 
-    const mail = getEmailTemplate(to, name, token, type);
+    const mail = getEmailTemplate(to, name, token, type, actionData);
 
     smtpTransport.sendMail(mail, function(err, response) {
         if( err ) {
