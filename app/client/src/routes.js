@@ -15,7 +15,8 @@ import UpdateProfile from './components/user/update_profile';
 import ManageSite from './components/user/Admin/manage_site';
 import PageNotFound from './components/utils/page_not_found';
 import AddFileLocalComponent from './components/user/Admin/add_file_local';
-import ResetUser from './components/Reset_user_password/reset_pass';
+import ResetUser from './components/Reset_user_password';
+import ResetPass from './components/Reset_user_password/reset_pass';
 
 const Routes = () => {
   return (
@@ -33,6 +34,7 @@ const Routes = () => {
         <Route path="/register" exact component={AuthenticationCheck(Register, false)}/>
         <Route path="/register_login" exact component={AuthenticationCheck(RegisterLogin, false)}/>
         <Route path="/reset_user" exact component={AuthenticationCheck(ResetUser, false)}/>
+        <Route path="/reset_password/:token" exact component={AuthenticationCheck(ResetPass, false)}/>
         <Route path="/shop" exact component={AuthenticationCheck(Shop, null)}/>
         <Route path="/" exact component={AuthenticationCheck(Home, null)}/>
         <Route component={AuthenticationCheck(PageNotFound)}/>

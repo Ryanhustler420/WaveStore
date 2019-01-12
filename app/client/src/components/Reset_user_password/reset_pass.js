@@ -1,46 +1,65 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import axios from 'axios';
 
 import {update, generateData, isFormValid} from '../utils/Form/formsAction';
 import FormField from './../utils/Form/FormField';
+import Dialog  from '@material-ui/core/Dialog';
 
-export default class ResetUser extends Component {
+export default class ResetPass extends Component {
+
   state = {
+    resetToken: '',
     formError: false,
-    formSuccess: false,
+    formErrorMessage: '',
+    formSuccess: '',
     formdata: {
-      email: {
+      password: {
         element: 'input',
         value: '',
         config: {
-          name: 'email_input',
-          type: 'text',
-          placeholder: 'Enter your email',
+            name: 'password_input',
+            type: 'password',
+            placeholder: 'Enter your password'
         },
         validation: {
-          required: true,
-          email: true,
+            required: true
         },
         valid: false,
         touched: false,
-        validationMessage: '',
-      },
+        validationMessage: ''
     },
-  };
+    confirmPassword: {
+        element: 'input',
+        value: '',
+        config: {
+            name: 'confirm_password_input',
+            type: 'password',
+            placeholder: 'Confirm your password'
+        },
+        validation: {
+            required: true,
+            confirm: 'password'
+        },
+        valid: false,
+        touched: false,
+        validationMessage: ''
+    }
+    }
+  }
+
+  componentDidMount() {
+    const resetToken = this.props.match.params.token;
+    this.setState({resetToken})
+  }
 
   submitForm = event => {
     event.preventDefault ();
 
-    let dataToSubmit = generateData (this.state.formdata, 'reset_email');
-    let formIsValid = isFormValid (this.state.formdata, 'reset_email');
+    let dataToSubmit = generateData (this.state.formdata, 'reset_pass');
+    let formIsValid = isFormValid (this.state.formdata, 'reset_pass');
 
     if (formIsValid) {
-      axios.post('/api/users/reset_user', dataToSubmit)
-        .then(response => {
-          if(response.data.success){
-            this.setState({formSuccess: true})
-          }
-        })
+      console.log(dataToSubmit);
     } else {
       this.setState ({
         formError: true,
@@ -49,40 +68,48 @@ export default class ResetUser extends Component {
   };
 
   updateForm = element => {
-    const newFormdata = update (element, this.state.formdata, 'reset_email');
+    const newFormdata = update (element, this.state.formdata, 'reset_pass');
     this.setState ({
       formError: false,
       formdata: newFormdata,
     });
   };
 
-  render () {
+  render() {
     return (
       <div className="container">
-        <h1>Reset password</h1>
-        <form onSubmit={event => this.submitForm (event)}>
-          <FormField
-            id={'email'}
-            formdata={this.state.formdata.email}
-            change={element => this.updateForm (element)}
-          />
+        <form onSubmit={(event) => this.submitForm(event)}>
+          <h2>Reset Password</h2>
+          <div className="form_block_two">
+              <div className="block">
+                  <FormField 
+                      id={'password'}
+                      formdata={this.state.formdata.password}
+                      change={(element) => this.updateForm(element)}
+                  />
+              </div>
+              <div className="block">
+                  <FormField 
+                      id={'confirmPassword'}
+                      formdata={this.state.formdata.confirmPassword}
+                      change={(element) => this.updateForm(element)}
+                  />
+              </div>
+          </div>
           <div>
-            {this.state.formSuccess
-              ? <div className="form_success">
-                  Done, Check your email
-                </div>
-              : null
-            }
-            <button
-              type="submit"
-              tabIndex="-1"
-              onClick={event => this.submitForm (event)}
-            >
-              Send Password Reset
-            </button>
+              {
+                  this.state.formError ?
+                      <div className="error_label">
+                          {this.state.formErrorMessage}
+                      </div>
+                  :null
+              }
+              <button type="submit" tabIndex="-1" onClick={(event) => this.submitForm(event)}>
+                  Reset Password
+              </button>
           </div>
         </form>
       </div>
-    );
+    )
   }
 }
