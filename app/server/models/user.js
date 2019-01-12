@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
+const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
 const SALT_I = 10;
 require('dotenv').config();
@@ -41,6 +42,12 @@ const userSchema = mongoose.Schema({
     },
     token: {
         type: String
+    },
+    resetToken: {
+        type: String
+    },
+    resetTokenExp: {
+        type: Number
     }
 });
 
@@ -68,6 +75,19 @@ userSchema.methods.comparePassword = function(candidatePassword, cb) {
         if(error) { return cb(error) }
         cb(null, Match);
     });
+}
+
+userSchema.methods.generateResetToken = function(cb) {
+    var user = this;
+    crypto.randomBytes(20, function(err, buffer) {
+        var token = buffer.toString('hex');
+
+        user.resetToken = token
+        user.save(function(err, user) {
+            if(error) { return cb(error) }
+            cb(null, user)
+        })
+    })
 }
 
 userSchema.methods.generateToken = function( cb ){
