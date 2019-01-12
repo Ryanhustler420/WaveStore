@@ -246,7 +246,9 @@ app.post('/api/users/reset_user', (req, res) => {
         {'email': req.body.email},
         (err, user) => {
             user.generateResetToken((err, user) => {
-                
+                if(err) return res.json({success: false, err});
+                sendEmail(user.email, user.name, null, "reset_password", user)
+                return res.json({success: true})
             })
         }
     )

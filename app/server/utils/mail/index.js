@@ -3,7 +3,7 @@ const mailer = require('nodemailer');
 const { welcome } = require('./welcome_template');
 const { purchase } = require('./purchase_template');
 require('dotenv').config();
-
+const { resetPass } = require('./resetpass_template');
 // Mail related functions 
 
 const getEmailTemplate = (to, name, token, type, actionData) => {
@@ -20,14 +20,23 @@ const getEmailTemplate = (to, name, token, type, actionData) => {
             }        
             break;
         case "purchase":
-        template = {
-            from : `Waves ${process.env.EMAIL_USER}`,
-            to,
-            subject: `Thanks for shopping with us, ${name} !`,
-            // text: "Testing nodemailer npm",
-            html: purchase(actionData)
-        }        
-           break;
+            template = {
+                from : `Waves ${process.env.EMAIL_USER}`,
+                to,
+                subject: `Thanks for shopping with us, ${name} !`,
+                // text: "Testing nodemailer npm",
+                html: purchase(actionData)
+            }        
+            break;
+        case "reset_password":
+            template = {
+                from : `Waves ${process.env.EMAIL_USER}`,
+                to,
+                subject: `Hey ${name}, reset your pass`,
+                // text: "Testing nodemailer npm",
+                html: resetPass(actionData)
+            }        
+            break;
 
         default:
             break;
