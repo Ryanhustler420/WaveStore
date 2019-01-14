@@ -23,7 +23,11 @@ class ProductDetail extends Component {
     }
 
     addToCartHandler(id) {
-        this.props.dispatch(addToCart(id))
+        if(!this.props.user.userData.isAuth){
+            this.props.history.push('/register_login');
+        } else {
+            this.props.dispatch(addToCart(id))
+        }
     }
 
     render() {
@@ -60,7 +64,8 @@ class ProductDetail extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        products: state.products
+        products: state.products,
+        user: state.user
     }
 }
 

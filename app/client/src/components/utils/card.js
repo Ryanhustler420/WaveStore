@@ -3,6 +3,7 @@ import MyButton from './button';
 import { connect } from 'react-redux';
 
 import { addToCart } from './../../actions/user_actions';
+import { withRouter } from 'react-router-dom';
 
 class Card extends Component {
 
@@ -62,10 +63,12 @@ class Card extends Component {
                         <MyButton 
                             type="bag_link"
                             runAction={() => {
-                                    props.user.userData.isAuth ?
+                                    if(props.user.userData.isAuth){
                                         this.props.dispatch(addToCart(props._id))
-                                    :
-                                        console.log('you need to login');
+                                    } else {
+                                        this.props.history.push('/register_login');
+                                        // console.log('login first')
+                                    }
                                 }}
                         />
                     </div>
@@ -82,4 +85,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps)(Card);
+export default connect(mapStateToProps)(withRouter(Card));
