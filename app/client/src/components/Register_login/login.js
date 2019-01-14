@@ -50,7 +50,7 @@ class Login extends Component {
 
         let dataToSubmit = generateData(this.state.formdata, 'login');
         let formIsValid = isFormValid(this.state.formdata, 'login');
-
+        dataToSubmit = { ...dataToSubmit, email: dataToSubmit.email.toLowerCase() }
         if(formIsValid){
             this.props.dispatch(loginUser(dataToSubmit))
                 .then(response => {

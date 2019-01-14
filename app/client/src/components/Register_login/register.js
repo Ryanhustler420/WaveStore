@@ -98,7 +98,7 @@ class Register extends Component {
 
         let dataToSubmit = generateData(this.state.formdata, 'register');
         let formIsValid = isFormValid(this.state.formdata, 'register');
-
+        dataToSubmit = { ...dataToSubmit, email: dataToSubmit.email.toLowerCase() }
         if(formIsValid){
             this.props.dispatch(RegisterUser(dataToSubmit))
                 .then(response => {
